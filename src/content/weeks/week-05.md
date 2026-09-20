@@ -31,7 +31,7 @@ readings:
   type: post
   minutes: 20
   prerequisites: |
-    Continues the review above. Read *Book Review: Surfing Uncertainty* first.
+    *Book Review: Surfing Uncertainty*, the post above.
   year: 2019
   url: https://slatestarcodex.com/2019/03/20/translating-predictive-coding-into-perceptual-control/
 - id: zoom-in-an-introduction-to-circuits
@@ -41,7 +41,7 @@ readings:
   type: paper
   minutes: 40
   prerequisites: |
-    Assumes convolutional networks: layers, channels, learned features.
+    Convolutional networks: layers, channels, learned features.
   year: 2020
   url: https://distill.pub/2020/circuits/zoom-in/
 - id: an-intuitive-guide-to-garrabrant-induction
@@ -51,7 +51,7 @@ readings:
   type: post
   minutes: 40
   prerequisites: |
-    Assumes probability and the idea of a Dutch book, plus the observation that a Bayesian agent cannot coherently be uncertain about a mathematical fact.
+    Probability and Dutch books. Logical uncertainty: the problem that a Bayesian agent cannot coherently be uncertain about a mathematical fact.
   year: 2021
   url: https://markxu.com/writing/logical-induction/
 - id: loss-as-the-inconsistency-of-a-probabilistic-dependency-graph
@@ -61,7 +61,7 @@ readings:
   type: paper
   minutes: 60
   prerequisites: |
-    Bayesian networks, KL divergence and basic information theory.
+    Bayesian networks, KL divergence, basic information theory.
   year: 2022
   url: https://arxiv.org/abs/2202.11862
 - id: condensation
@@ -113,7 +113,7 @@ readings:
   type: post
   minutes: 30
   prerequisites: |
-    Assumes Bayesian updating and Jeffrey conditionalisation.
+    Bayesian updating and Jeffrey conditionalisation.
   year: 2020
   url: https://www.lesswrong.com/posts/xJyY5QkQvNJpZLJRo/radical-probabilism-1
 ---

@@ -18,7 +18,7 @@ readings:
   type: paper
   minutes: 45
   prerequisites: |
-    Assumes Tarski's undefinability theorem and Gödel's first incompleteness theorem.
+    Tarski's undefinability theorem. Gödel's first incompleteness theorem.
   year: 2013
   url: https://intelligence.org/files/DefinabilityTruthDraft.pdf
   note: The source doc does not label this week's first list as "Main readings"; treated as main here
@@ -40,7 +40,7 @@ readings:
   type: paper
   minutes: 45
   prerequisites: |
-    Löb's theorem and the box operator of provability logic. Without both, the modal combat arguments are unreadable.
+    Löb's theorem and the box operator of provability logic.
   year: 2014
   url: https://arxiv.org/abs/1401.5577
 - id: probabilistic-payor-s-lemma
@@ -50,7 +50,7 @@ readings:
   type: post
   minutes: 20
   prerequisites: |
-    Ties the logic and open-source game theory threads together. Read both before this.
+    Both threads above: probabilistic logic, and open-source game theory.
   year: 2023
   url: https://www.lesswrong.com/posts/ZWhJcHPmRaXAPAK5k/probabilistic-payor-lemma
 - id: the-void
@@ -60,7 +60,7 @@ readings:
   type: post
   minutes: 120
   prerequisites: |
-    Assumes how a language model is trained: pretraining, fine-tuning, RLHF.
+    LLM training: pretraining, fine-tuning, RLHF.
   year: 2025
   url: https://nostalgebraist.tumblr.com/post/785766737747574784/the-void
   note: Very long. Budget accordingly, or assign it a week ahead.
@@ -79,7 +79,7 @@ readings:
   type: paper
   minutes: 20
   prerequisites: |
-    Assumes Löb's theorem.
+    Löb's theorem.
   url: https://intelligence.org/files/ProbabilisticLogicProcrastinates.pdf
 - id: self-referential-probability
   tier: supplementary
@@ -88,7 +88,7 @@ readings:
   type: book
   minutes: 60
   prerequisites: |
-    Assumes formal logic and measure-theoretic probability.
+    Formal logic and measure-theoretic probability.
   url: https://philpapers.org/rec/CAMSP-5
   excerpt: Chapter 5, which is more or less self-contained
 - id: intuitive-self-models

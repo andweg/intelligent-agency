@@ -25,7 +25,7 @@ readings:
   type: book
   minutes: 60
   prerequisites: |
-    The excerpt begins mid-argument. Lagerros's post above supplies the Copernican background it assumes.
+    The Copernican background from Lagerros's post above.
   year: 1962
   url: https://www.lri.fr/~mbl/Stanford/CS477/papers/Kuhn-SSR-2ndEd.pdf
   excerpt: Pages 52-76 only
@@ -56,7 +56,7 @@ readings:
   type: post
   minutes: 12
   prerequisites: |
-    Second of three. Read *Orientation* first.
+    *Orientation*, the first post in the sequence.
   year: 2022
   url: https://www.lesswrong.com/s/evLkoqsbi79AnM5sz/p/bRcsFM6jm272ELyx8
 - id: intro-to-naturalism-patient-observation
@@ -66,7 +66,7 @@ readings:
   type: post
   minutes: 15
   prerequisites: |
-    Third of three. Follows *The Territory*.
+    *Orientation* and *The Territory*, in that order.
   year: 2022
   url: https://www.lesswrong.com/posts/sAiHxHkQrsYsRpKFP/patient-observation
 - id: why-academic-papers-are-a-terrible-discussion-forum

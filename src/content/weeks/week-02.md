@@ -29,7 +29,7 @@ readings:
   type: book
   minutes: 45
   prerequisites: |
-    Assumes you can read a formal definition. Familiarity with Turing machines helps.
+    Fluency with formal definitions. Turing machines.
   year: 2011
   url: https://www.richardcngo.com/the-nature-of-computation-excerpt
   excerpt: Sections 7, 7.1 and 7.2

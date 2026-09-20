@@ -18,7 +18,7 @@ readings:
   type: book
   minutes: 75
   prerequisites: |
-    Assumes coordination games, commitment and common knowledge, and defines none of them.
+    Coordination games, commitment, common knowledge, Nash equilibrium — none of them defined in the text.
   year: 1960
   url: https://www.sackett.net/Strategy-of-Conflict.pdf
   excerpt: Pages 70-103
@@ -37,7 +37,7 @@ readings:
   type: paper
   minutes: 60
   prerequisites: |
-    Assumes the halting problem, and the self-reference material from week 6.
+    The halting problem. Week 6's self-reference material.
   year: 2015
   url: https://arxiv.org/abs/1508.04145
 - id: power-lies-trembling
@@ -64,7 +64,7 @@ readings:
   type: post
   minutes: 60
   prerequisites: |
-    Assumes cooperative game theory and the standard bargaining solutions (Nash, Kalai–Smorodinsky).
+    Cooperative game theory and the standard bargaining solutions (Nash, Kalai–Smorodinsky).
   year: 2022
   url: https://www.alignmentforum.org/posts/vJ7ggyjuP4u2yHNcP/threat-resistant-bargaining-megapost-introducing-the-rose
 - id: there-is-a-war
