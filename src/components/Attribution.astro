@@ -1,0 +1,26 @@
+---
+/** The unofficial-status notice. Shown in the footer of every page and on the about page. */
+import { getCourse } from '../lib/course'
+
+interface Props {
+  class?: string
+}
+
+const { class: className = '' } = Astro.props
+const course = await getCourse()
+---
+
+<p class:list={['max-w-[68ch] leading-relaxed', className]}>
+  An unofficial companion site for Richard Ngo&rsquo;s <em>Understanding Intelligent Agency</em>{' '}
+  curriculum. Not affiliated with or endorsed by Richard Ngo. Reading list and week introductions
+  are quoted from{' '}
+  <a
+    href={course.data.sourceUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="text-accent underline underline-offset-2"
+  >
+    the source document
+  </a>
+  , which is the canonical version.
+</p>

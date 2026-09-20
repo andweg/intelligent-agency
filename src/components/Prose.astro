@@ -1,0 +1,18 @@
+---
+/**
+ * Renders a Markdown string from frontmatter (ngoIntro, prerequisites, objectives) through
+ * `marked` and wraps it in the site's shared typographic styles.
+ */
+import { marked } from 'marked'
+
+interface Props {
+  markdown: string
+  class?: string
+}
+
+const { markdown, class: className = '' } = Astro.props
+
+const html = marked.parse(markdown, { async: false, gfm: true, breaks: false })
+---
+
+<div class:list={['prose-block', className]} set:html={html} />

@@ -1,0 +1,106 @@
+---
+/**
+ * Per-reading progress, persisted in localStorage under a single namespaced key.
+ *
+ * Progressive enhancement only: with JS off, or storage blocked, the checkboxes still render and
+ * still tick, they just do not persist. Nothing on the page is gated on progress.
+ */
+---
+
+<script>
+  type Progress = Record<string, Record<string, boolean>>
+
+  const STORAGE_KEY = 'uia:progress'
+
+  function read(): Progress {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY)
+      if (!raw) return {}
+      const parsed: unknown = JSON.parse(raw)
+      if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) return {}
+      return parsed as Progress
+    } catch {
+      // Private browsing, blocked site data, or corrupt JSON: start from empty.
+      return {}
+    }
+  }
+
+  function write(progress: Progress): void {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
+    } catch {
+      // Nothing to do: the tick still applies for this page view, it just will not persist.
+    }
+  }
+
+  function boxes(): HTMLInputElement[] {
+    return Array.from(document.querySelectorAll<HTMLInputElement>('[data-reading-checkbox]'))
+  }
+
+  /** "3 of 6 main readings", computed from main-tier checkboxes only. */
+  function refreshCounters(): void {
+    const totals = new Map<string, { done: number; total: number }>()
+
+    for (const box of boxes()) {
+      if (box.dataset.tier !== 'main') continue
+      const week = box.dataset.week
+      if (!week) continue
+      const entry = totals.get(week) ?? { done: 0, total: 0 }
+      entry.total += 1
+      if (box.checked) entry.done += 1
+      totals.set(week, entry)
+    }
+
+    for (const el of document.querySelectorAll<HTMLElement>('[data-progress-summary]')) {
+      const week = el.dataset.progressSummary
+      if (!week) continue
+      const entry = totals.get(week)
+      if (!entry) continue
+      el.textContent = `${entry.done} of ${entry.total} main readings`
+    }
+  }
+
+  function hydrate(): void {
+    const progress = read()
+    for (const box of boxes()) {
+      const week = box.dataset.week
+      const reading = box.dataset.reading
+      if (!week || !reading) continue
+      box.checked = progress[week]?.[reading] === true
+    }
+    refreshCounters()
+  }
+
+  function onChange(event: Event): void {
+    const target = event.target
+    if (!(target instanceof HTMLInputElement)) return
+    if (!target.matches('[data-reading-checkbox]')) return
+
+    const week = target.dataset.week
+    const reading = target.dataset.reading
+    if (!week || !reading) return
+
+    const progress = read()
+    const weekEntry = progress[week] ?? {}
+    if (target.checked) weekEntry[reading] = true
+    else delete weekEntry[reading]
+
+    if (Object.keys(weekEntry).length > 0) progress[week] = weekEntry
+    else delete progress[week]
+
+    write(progress)
+    refreshCounters()
+  }
+
+  function start(): void {
+    hydrate()
+    // One delegated listener on the document, rather than one per checkbox.
+    document.addEventListener('change', onChange)
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, { once: true })
+  } else {
+    start()
+  }
+</script>

@@ -1,0 +1,81 @@
+---
+import TypeIcon from './TypeIcon.astro'
+import Prose from './Prose.astro'
+import type { Reading } from '../lib/course'
+import { hostFromUrl } from '../lib/url'
+import { formatReadingMinutes } from '../lib/format'
+import { formatExcerpt } from '../lib/excerpt'
+
+interface Props {
+  reading: Reading
+  weekSlug: string
+}
+
+const { reading, weekSlug } = Astro.props
+const host = hostFromUrl(reading.url)
+const checkboxId = `read-${weekSlug}-${reading.id}`
+
+const meta = [
+  reading.authors,
+  reading.year !== undefined ? String(reading.year) : null,
+  host,
+  formatReadingMinutes(reading.minutes),
+].filter((part): part is string => Boolean(part))
+---
+
+<li class="border-rule border-b last:border-b-0">
+  <div class="flex gap-3.5 py-3.5">
+    {/* The label is visually hidden so that clicking the title follows its link rather than
+        toggling the checkbox, while screen readers still hear which reading this marks. */}
+    <label for={checkboxId} class="sr-only">
+      Mark as read: {reading.title}
+    </label>
+    <input
+      type="checkbox"
+      id={checkboxId}
+      class="checkbox mt-[5px]"
+      data-reading-checkbox
+      data-week={weekSlug}
+      data-reading={reading.id}
+      data-tier={reading.tier}
+    />
+
+    <div class="min-w-0 flex-1">
+      <div class="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+        <span class="text-[0.97rem] leading-snug">
+          {reading.url ? (
+            <a
+              href={reading.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-accent decoration-rule hover:decoration-accent underline underline-offset-[3px] transition-colors"
+            >
+              {reading.title}
+            </a>
+          ) : (
+            reading.title
+          )}
+        </span>
+
+        <span class="meta-sm text-muted inline-flex shrink-0 items-center gap-1 uppercase">
+          <TypeIcon type={reading.type} />
+          {reading.type}
+        </span>
+      </div>
+
+      <p class="meta text-muted mt-1">
+        {meta.join('  ·  ')}
+        {reading.excerpt && <span class="tag-excerpt ml-2">{formatExcerpt(reading.excerpt)}</span>}
+      </p>
+
+      {reading.note && <p class="text-muted mt-1.5 text-[0.82rem] italic">{reading.note}</p>}
+
+      {reading.prerequisites.trim() !== '' && (
+        <div class="border-rule text-muted mt-2.5 border-l pl-3 text-[0.86rem]">
+          <p class="meta-sm text-ink uppercase">Before this</p>
+          <Prose markdown={reading.prerequisites} class="mt-1" />
+        </div>
+      )}
+    </div>
+  </div>
+</li>

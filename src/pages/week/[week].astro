@@ -1,0 +1,249 @@
+---
+import { render } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import WeekSidebar from '../../components/WeekSidebar.astro'
+import WeekBand from '../../components/WeekBand.astro'
+import ReadingList from '../../components/ReadingList.astro'
+import Callout from '../../components/Callout.astro'
+import Prose from '../../components/Prose.astro'
+import SignupButton from '../../components/SignupButton.astro'
+import ProgressScript from '../../components/ProgressScript.astro'
+import { getWeeks, getCourse, readingsOfTier, hasOwnNotes, type Week } from '../../lib/course'
+import { withBase } from '../../lib/url'
+import { weekHref } from '../../lib/links'
+
+export async function getStaticPaths() {
+  const weeks = await getWeeks()
+  // Weeks route by number. `params` values must be strings, or Astro drops the route silently.
+  return weeks.map((week) => ({
+    params: { week: String(week.data.week) },
+    props: { week, weeks },
+  }))
+}
+
+interface Props {
+  week: Week
+  weeks: Week[]
+}
+
+const { week, weeks } = Astro.props
+const course = await getCourse()
+
+const main = readingsOfTier(week, 'main')
+const supplementary = readingsOfTier(week, 'supplementary')
+
+const index = weeks.findIndex((w) => w.data.week === week.data.week)
+const prev = index > 0 ? weeks[index - 1] : undefined
+const next = index < weeks.length - 1 ? weeks[index + 1] : undefined
+
+const { Content } = await render(week)
+const showNotes = hasOwnNotes(week.body)
+
+const padded = String(week.data.week).padStart(2, '0')
+const navLink = 'meta text-muted hover:text-accent uppercase transition-colors'
+---
+
+<BaseLayout
+  title={`Week ${week.data.week}. ${week.data.title}`}
+  description={week.data.summary}
+  wide
+>
+  <div class="mx-auto max-w-[1240px] px-4 sm:px-6">
+    <div class="gap-12 lg:flex">
+      <!-- Desktop sidebar -->
+      <aside class="hidden shrink-0 lg:block lg:w-[290px]">
+        <div class="sticky top-16 max-h-[calc(100vh-4rem)] overflow-y-auto py-10 pr-2">
+          <WeekSidebar weeks={weeks} currentWeek={week.data.week} />
+        </div>
+      </aside>
+
+      <!-- Mobile drawer: a plain <details>, so it works with JS disabled -->
+      <details class="border-rule mt-4 border-y lg:hidden">
+        <summary class="meta text-muted cursor-pointer list-none py-3 uppercase [&::-webkit-details-marker]:hidden">
+          <span class="flex items-center justify-between gap-2">
+            <span>All nine weeks</span>
+            <svg
+              class="size-3.5"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m4 6 4 4 4-4"></path>
+            </svg>
+          </span>
+        </summary>
+        <div class="border-rule border-t py-3">
+          <WeekSidebar weeks={weeks} currentWeek={week.data.week} />
+        </div>
+      </details>
+
+      <div class="min-w-0 flex-1 py-10">
+        <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+          <p class="meta text-muted flex min-w-0 flex-1 items-baseline gap-1.5">
+            <a href={withBase('/')} class="hover:text-accent shrink-0 transition-colors">
+              Course
+            </a>
+            <span class="shrink-0" aria-hidden="true">
+              /
+            </span>
+            <span class="text-ink shrink-0">Week {padded}.</span>
+            {/* Body face, and truncated to one line so a long title cannot wrap the breadcrumb. */}
+            <span class="text-ink min-w-0 truncate font-sans text-[0.85rem]">
+              {week.data.title}
+            </span>
+          </p>
+
+          <div class="flex shrink-0 items-center gap-5">
+            {prev ? (
+              <a href={weekHref(prev.data.week)} class={navLink} rel="prev">
+                &larr; Prev
+              </a>
+            ) : (
+              <span class:list={[navLink, 'opacity-35']} aria-hidden="true">
+                &larr; Prev
+              </span>
+            )}
+            {next ? (
+              <a href={weekHref(next.data.week)} class={navLink} rel="next">
+                Next &rarr;
+              </a>
+            ) : (
+              <span class:list={[navLink, 'opacity-35']} aria-hidden="true">
+                Next &rarr;
+              </span>
+            )}
+          </div>
+        </div>
+
+        <div class="mt-5">
+          <WeekBand activeWeek={week.data.week} />
+        </div>
+
+        <!-- The article carries its own left margin on wide viewports, so the big week number
+             can hang in it without reaching into the sidebar gutter. -->
+        <article class="mt-10 max-w-[720px] lg:max-w-[808px] lg:pl-[88px]">
+          <div class="relative">
+            <!-- The numeral is the visible week label. It is decoration for assistive tech, so
+                 the real name is the hidden span below; global.css suppresses the eyebrow while
+                 the numeral shows, so the number is never announced or read twice. -->
+            <span
+              aria-hidden="true"
+              class="week-numeral font-serif text-rule leading-none font-semibold tabular-nums lg:absolute lg:top-0 lg:-left-[88px]"
+              style="font-size:64px"
+            >
+              {padded}
+            </span>
+
+            <p class="week-eyebrow eyebrow mt-5 lg:mt-1">Week {padded}</p>
+            <span class="sr-only">Week {week.data.week}</span>
+            <h1 class="mt-3 text-[2rem] leading-[1.15] sm:text-[2.45rem]">{week.data.title}</h1>
+          </div>
+
+          <p class="text-muted mt-4 leading-relaxed">{week.data.summary}</p>
+
+          <p class="meta text-muted mt-5" data-progress-summary={week.data.slug}>
+            0 of {main.length} main readings
+          </p>
+
+          {week.data.prerequisites.trim() !== '' && (
+            <Callout
+              variant="strong"
+              title="Prerequisites"
+              id="prerequisites"
+              markdown={week.data.prerequisites}
+            />
+          )}
+
+          {week.data.objectives.trim() !== '' && (
+            <Callout
+              variant="soft"
+              title="Objectives"
+              id="objectives"
+              markdown={week.data.objectives}
+            />
+          )}
+
+          <figure class="border-accent mt-10 border-l-2 pl-5">
+            <blockquote>
+              <Prose markdown={week.data.ngoIntro} />
+            </blockquote>
+            <figcaption class="meta text-muted mt-4">
+              Richard Ngo, from{' '}
+              <a
+                href={course.data.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-accent underline underline-offset-2"
+              >
+                the source curriculum
+              </a>
+            </figcaption>
+          </figure>
+
+          {showNotes && (
+            <section class="mt-12" aria-labelledby="cohort-notes">
+              <h2 id="cohort-notes" class="border-rule border-b pb-2 text-[1.15rem]">
+                Notes for this cohort
+              </h2>
+              <div class="prose-block mt-4">
+                <Content />
+              </div>
+            </section>
+          )}
+
+          <ReadingList
+            heading="Main readings"
+            id="main-readings"
+            readings={main}
+            weekSlug={week.data.slug}
+          />
+
+          <ReadingList
+            heading="Supplementary readings"
+            id="supplementary-readings"
+            readings={supplementary}
+            weekSlug={week.data.slug}
+          />
+
+          <aside class="border-rule mt-16 border-t pt-8" aria-labelledby="signup-cta">
+            <h2 id="signup-cta" class="text-[1.15rem]">
+              Read this with other people
+            </h2>
+            <p class="text-muted mt-2 max-w-[52ch] text-[0.94rem] leading-relaxed">
+              These readings are far easier to get through, and far more useful, in a group that
+              meets weekly to argue about them.
+            </p>
+            <SignupButton class="mt-5" />
+          </aside>
+
+          <div class="border-rule mt-12 flex items-start justify-between gap-6 border-t pt-6">
+            {prev ? (
+              <a href={weekHref(prev.data.week)} class={navLink} rel="prev">
+                &larr; {String(prev.data.week).padStart(2, '0')} {prev.data.title}
+              </a>
+            ) : (
+              <span />
+            )}
+            {next ? (
+              <a
+                href={weekHref(next.data.week)}
+                class:list={[navLink, 'ml-auto text-right']}
+                rel="next"
+              >
+                {String(next.data.week).padStart(2, '0')} {next.data.title} &rarr;
+              </a>
+            ) : (
+              <span />
+            )}
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <ProgressScript />
+</BaseLayout>

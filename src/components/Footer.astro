@@ -1,0 +1,34 @@
+---
+import Attribution from './Attribution.astro'
+import Mark from './Mark.astro'
+import { SITE } from '../site.config'
+import { formatSyncedAt } from '../lib/format'
+import { getCourse } from '../lib/course'
+
+const course = await getCourse()
+---
+
+<footer class="border-rule mt-16 border-t">
+  <div class="mx-auto flex max-w-[1240px] gap-5 px-4 py-10 sm:px-6">
+    <Mark size={20} class="text-rule mt-1 shrink-0" />
+
+    <div class="text-muted min-w-0 text-[0.85rem]">
+      <Attribution />
+
+      <p class="meta mt-5">
+        Curriculum synced {formatSyncedAt(course.data.syncedAt)}
+        {SITE.contactEmail && (
+          <>
+            {' · '}
+            <a
+              href={`mailto:${SITE.contactEmail}`}
+              class="text-accent underline underline-offset-2"
+            >
+              Contact
+            </a>
+          </>
+        )}
+      </p>
+    </div>
+  </div>
+</footer>

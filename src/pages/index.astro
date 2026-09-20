@@ -1,0 +1,124 @@
+---
+import { render } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Prose from '../components/Prose.astro'
+import SignupButton from '../components/SignupButton.astro'
+import { getWeeks, getCourse, hasOwnNotes, readingsOfTier, totalMinutes } from '../lib/course'
+import { formatHoursRoundedUp } from '../lib/format'
+import { weekHref } from '../lib/links'
+
+const weeks = await getWeeks()
+const course = await getCourse()
+
+const { Content } = await render(course)
+const showIntro = hasOwnNotes(course.body)
+
+const rows = weeks.map((week) => {
+  const main = readingsOfTier(week, 'main')
+  return {
+    week: week.data.week,
+    title: week.data.title,
+    summary: week.data.summary,
+    mainCount: main.length,
+    suppCount: readingsOfTier(week, 'supplementary').length,
+    minutes: totalMinutes(main),
+  }
+})
+---
+
+<BaseLayout title={course.data.title} description={course.data.tagline}>
+  <section class="pt-10 pb-10 sm:pt-12">
+    <div class="hero-title-wrap">
+      {/* The site name is already the header wordmark, so the hero does not repeat it. The
+          tagline carries the h1 instead, which keeps one real heading on the page. It is sized
+          to hold one line at desktop widths and left free to wrap on a phone. */}
+      <h1 class="hero-title">{course.data.tagline}</h1>
+
+      <div class="mt-8 flex flex-wrap items-center gap-5">
+        <SignupButton />
+        <a
+          href={weekHref(weeks[0]!.data.week)}
+          class="meta text-muted hover:text-accent uppercase transition-colors"
+        >
+          Start with week 01 &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {showIntro && (
+    <section class="border-rule max-w-[720px] border-t pt-10 pb-12" aria-labelledby="what-this-is">
+      <h2 id="what-this-is" class="text-[1.3rem]">
+        What this is
+      </h2>
+      <div class="prose-block mt-4">
+        <Content />
+      </div>
+    </section>
+  )}
+
+  <section
+    class="border-rule max-w-[720px] border-t pt-10 pb-12"
+    aria-labelledby="about-the-curriculum"
+  >
+    <h2 id="about-the-curriculum" class="text-[1.3rem]">
+      About the curriculum
+    </h2>
+    <figure class="border-accent mt-5 border-l-2 pl-5">
+      <blockquote>
+        <Prose markdown={course.data.ngoIntro} />
+      </blockquote>
+      <figcaption class="meta text-muted mt-4">
+        {course.data.sourceAuthor}, from{' '}
+        <a
+          href={course.data.sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-accent underline underline-offset-2"
+        >
+          {course.data.sourceTitle}
+        </a>
+      </figcaption>
+    </figure>
+  </section>
+
+  <div class="border-rule max-w-[720px] border-t"></div>
+
+  <section class="pt-10 pb-4" aria-labelledby="content">
+    <h2 id="content" class="text-[1.3rem]">
+      Content
+    </h2>
+
+    <ul class="mt-6">
+      {rows.map((row) => (
+        <li class="border-rule border-t last:border-b">
+          <a
+            href={weekHref(row.week)}
+            class="hover:bg-surface group flex flex-col gap-1.5 px-2 py-5 transition-colors sm:flex-row sm:items-baseline sm:gap-6"
+          >
+            <span class="meta text-muted shrink-0 sm:w-[3ch]">
+              {String(row.week).padStart(2, '0')}
+            </span>
+
+            <span class="min-w-0 flex-1">
+              <span class="font-serif group-hover:text-accent block text-[1.12rem] leading-snug font-semibold transition-colors">
+                {row.title}
+              </span>
+              <span class="text-muted mt-1 block text-[0.9rem] leading-relaxed">{row.summary}</span>
+            </span>
+
+            <span class="meta text-muted shrink-0 sm:w-[17ch] sm:text-right">
+              <span class="whitespace-nowrap">
+                {row.mainCount} main &middot; {row.suppCount} supp.
+              </span>
+              <span class="whitespace-nowrap sm:mt-2 sm:block">
+                <span class="sm:hidden"> &middot; </span>
+                {formatHoursRoundedUp(row.minutes)}
+              </span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

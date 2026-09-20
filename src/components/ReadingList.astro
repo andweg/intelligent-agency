@@ -1,0 +1,32 @@
+---
+import ReadingRow from './ReadingRow.astro'
+import type { Reading } from '../lib/course'
+import { formatHoursRoundedUp } from '../lib/format'
+import { totalMinutes } from '../lib/course'
+
+interface Props {
+  heading: string
+  id: string
+  readings: Reading[]
+  weekSlug: string
+}
+
+const { heading, id, readings, weekSlug } = Astro.props
+const minutes = totalMinutes(readings)
+---
+
+{readings.length > 0 && (
+  <section class="mt-12" aria-labelledby={id}>
+    <h2 id={id} class="border-rule flex items-baseline justify-between gap-4 border-b pb-2">
+      <span class="text-[1.15rem]">{heading}</span>
+      <span class="meta text-muted shrink-0 font-normal">
+        {readings.length} &middot; {formatHoursRoundedUp(minutes)}
+      </span>
+    </h2>
+    <ul class="mt-1">
+      {readings.map((reading) => (
+        <ReadingRow reading={reading} weekSlug={weekSlug} />
+      ))}
+    </ul>
+  </section>
+)}

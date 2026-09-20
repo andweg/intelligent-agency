@@ -1,0 +1,11 @@
+dist
+node_modules
+.astro
+package-lock.json
+
+# Hand-authored curriculum content. Its frontmatter is quoted from the source document and is
+# validated by the Zod schema; leave the wording, ordering and YAML style exactly as written.
+src/content
+
+# Reconstructed copy of the original build brief; kept verbatim.
+docs/CLAUDE-CODE-PROMPT.md

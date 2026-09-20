@@ -1,0 +1,92 @@
+---
+/**
+ * Clears the stored reading progress, behind a two-step confirm. Hidden entirely when JS is off,
+ * since there is nothing stored to clear in that case.
+ */
+---
+
+<section
+  id="reset-progress"
+  hidden
+  class="border-rule mt-10 border-t pt-8"
+  aria-labelledby="reset-progress-heading"
+>
+  <h2 id="reset-progress-heading" class="text-[1.15rem]">
+    Reset progress
+  </h2>
+  <p class="text-muted mt-1.5 text-[0.9rem] leading-relaxed">
+    Unticks every reading across all weeks in this browser. This cannot be undone.
+  </p>
+
+  <div class="mt-4 flex flex-wrap items-center gap-3">
+    <button
+      type="button"
+      id="reset-progress-start"
+      class="meta border-rule hover:bg-surface rounded-[4px] border px-4 py-2 uppercase transition-colors"
+    >
+      Reset progress
+    </button>
+
+    <span id="reset-progress-confirm" hidden class="flex flex-wrap items-center gap-3">
+      <span class="text-[0.9rem]">Clear all ticked readings?</span>
+      <button
+        type="button"
+        id="reset-progress-yes"
+        class="meta bg-accent text-accent-contrast hover:bg-accent-hover rounded-[4px] px-4 py-2 uppercase transition-colors"
+      >
+        Yes, clear it
+      </button>
+      <button
+        type="button"
+        id="reset-progress-no"
+        class="meta border-rule hover:bg-surface rounded-[4px] border px-4 py-2 uppercase transition-colors"
+      >
+        Cancel
+      </button>
+    </span>
+
+    <span id="reset-progress-done" hidden class="text-muted text-[0.9rem]">
+      Progress cleared.
+    </span>
+  </div>
+</section>
+
+<script>
+  const STORAGE_KEY = 'uia:progress'
+
+  const section = document.getElementById('reset-progress')
+  const startButton = document.getElementById('reset-progress-start')
+  const confirmRow = document.getElementById('reset-progress-confirm')
+  const yesButton = document.getElementById('reset-progress-yes')
+  const noButton = document.getElementById('reset-progress-no')
+  const doneNote = document.getElementById('reset-progress-done')
+
+  if (section && startButton && confirmRow && yesButton && noButton && doneNote) {
+    // Only offer the control where there is storage to clear.
+    section.hidden = false
+
+    startButton.addEventListener('click', () => {
+      startButton.hidden = true
+      doneNote.hidden = true
+      confirmRow.hidden = false
+      yesButton.focus()
+    })
+
+    noButton.addEventListener('click', () => {
+      confirmRow.hidden = true
+      startButton.hidden = false
+      startButton.focus()
+    })
+
+    yesButton.addEventListener('click', () => {
+      try {
+        localStorage.removeItem(STORAGE_KEY)
+      } catch {
+        // Storage blocked: there was nothing persisted to clear anyway.
+      }
+      confirmRow.hidden = true
+      startButton.hidden = false
+      doneNote.hidden = false
+    })
+  }
+</script>

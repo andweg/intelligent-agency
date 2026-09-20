@@ -1,0 +1,20 @@
+---
+import { SITE } from '../site.config'
+import { withBase } from '../lib/url'
+
+interface Props {
+  class?: string
+  variant?: 'solid' | 'outline'
+}
+
+const { class: className = '', variant = 'solid' } = Astro.props
+
+const base =
+  'meta inline-flex items-center justify-center rounded-[4px] px-5 py-2.5 uppercase transition-colors'
+const solid = 'bg-accent text-accent-contrast hover:bg-accent-hover'
+const outline = 'border-rule hover:bg-surface border text-ink'
+---
+
+<a href={withBase('/signup')} class:list={[base, variant === 'solid' ? solid : outline, className]}>
+  {SITE.signupLabel}
+</a>

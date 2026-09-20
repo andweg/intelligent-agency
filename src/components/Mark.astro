@@ -1,0 +1,48 @@
+---
+/**
+ * A graph-theory self-loop: a node with an edge that leaves it, arcs over, and returns to it.
+ * The motif the curriculum keeps coming back to — Löbian cooperation, reflective oracles,
+ * Payor's lemma, FixDT, agents as webs of beliefs.
+ *
+ * Two sets of geometry. Below 20px the standard loop closes up and the arrowhead fills in, so the
+ * small variant thickens the stroke, opens the head out and enlarges the node.
+ *
+ * The loop and arrowhead use `currentColor`, so the mark inherits whatever colour it sits in;
+ * the node is bound to --ink.
+ */
+interface Props {
+  size?: number
+  class?: string
+}
+
+const { size = 26, class: className = '' } = Astro.props
+
+const small = size < 20
+
+const loop = small
+  ? 'M20.2 26.2 C 11 10, 37.6 7.6, 31.2 22.6'
+  : 'M20.4 26.6 C 11.3 10.7, 37.3 8.2, 31.2 23.0'
+const head = small ? 'M29.0 28.4 L 35.4 24.4 L 27.8 21.4 Z' : 'M29.4 27.2 L 34.7 24.1 L 28.4 21.6 Z'
+const node = small ? { cx: 25.6, cy: 33.4, r: 5.6 } : { cx: 25.8, cy: 32.4, r: 4.7 }
+const strokeWidth = small ? 4.2 : 3.2
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 48 48"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+  class={className}
+>
+  <path
+    d={loop}
+    stroke="currentColor"
+    stroke-width={strokeWidth}
+    stroke-linecap="round"
+    fill="none"
+  ></path>
+  <path d={head} fill="currentColor"></path>
+  <circle cx={node.cx} cy={node.cy} r={node.r} fill="var(--ink)"></circle>
+</svg>

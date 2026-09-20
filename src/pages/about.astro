@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Attribution from '../components/Attribution.astro'
+import SignupButton from '../components/SignupButton.astro'
+import ResetProgress from '../components/ResetProgress.astro'
+import { getCourse, getWeeks, courseTotals } from '../lib/course'
+import { SITE } from '../site.config'
+
+const course = await getCourse()
+const weeks = await getWeeks()
+const totals = courseTotals(weeks)
+---
+
+<BaseLayout
+  title="About"
+  description={`About this unofficial companion site for ${course.data.sourceTitle}.`}
+>
+  <article class="max-w-[720px] py-14 sm:py-20">
+    <p class="eyebrow">About</p>
+    <h1 class="mt-3 text-[2rem] leading-[1.15] sm:text-[2.45rem]">What this is</h1>
+
+    <div class="prose-block mt-6 text-[0.98rem]">
+      <p>
+        This is a companion site for running a reading and discussion group on{' '}
+        <em>{course.data.sourceTitle}</em>, a {totals.weeks}-week curriculum by{' '}
+        {course.data.sourceAuthor}. It lays the {totals.main} main and {totals.supplementary}{' '}
+        supplementary readings out week by week, with time estimates, the excerpt to read where only
+        part of a source is assigned, and a checkbox per reading so you can keep track of where you
+        are.
+      </p>
+
+      <h2>It is unofficial</h2>
+    </div>
+
+    <div class="border-accent bg-accent-soft mt-4 border-l-2 px-5 py-4">
+      <Attribution class="text-[0.92rem]" />
+    </div>
+
+    <div class="prose-block mt-8 text-[0.98rem]">
+      <h2>How the group runs</h2>
+      <p>
+        One week of the curriculum per session. Participants do the main readings beforehand and the
+        2-hour session is spent discussing (not: summarising) them. The supplementary readings are optional
+        but worth your time if you're interested in exploring the concepts further.
+      </p>
+      <p>
+        Estimated times shown on each week cover the main readings only. They are rough, and some 
+        of the texts are quite dense. Where a reading is only partly assigned, the
+        excerpt is marked on the reading itself &mdash; read that part, not the whole book.
+      </p>
+
+      <h2>Tracking your progress</h2>
+      <p>
+        Ticking a reading stores it in your own browser, under a single key. It is never sent
+        anywhere. Clearing your browser data, or opening the site in a different browser, starts 
+        you from scratch. Nothing on the site is gated on your progress.
+      </p>
+    </div>
+
+    <ResetProgress />
+
+    <div class="prose-block mt-10 text-[0.98rem]">
+      <h2>The source document</h2>
+      <p>
+        <a href={course.data.sourceUrl} target="_blank" rel="noopener noreferrer">
+          {course.data.sourceTitle} &mdash; {course.data.sourceAuthor}
+        </a>
+      </p>
+      {SITE.contactEmail && (
+        <>
+          <h2>Contact</h2>
+          <p>
+            <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>
+          </p>
+        </>
+      )}
+    </div>
+
+    <aside class="border-rule mt-14 border-t pt-8" aria-labelledby="signup-cta">
+      <h2 id="signup-cta" class="text-[1.15rem]">
+        Join a cohort
+      </h2>
+      <p class="text-muted mt-2 max-w-[52ch] text-[0.94rem] leading-relaxed">
+        Cohorts run through all {totals.weeks} weeks in order, one session a week.
+      </p>
+      <SignupButton class="mt-5" />
+    </aside>
+  </article>
+</BaseLayout>

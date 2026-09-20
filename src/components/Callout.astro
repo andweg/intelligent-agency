@@ -1,0 +1,29 @@
+---
+import Prose from './Prose.astro'
+
+interface Props {
+  /** 'strong' for prerequisites (accent rule, given real weight), 'soft' for objectives. */
+  variant: 'strong' | 'soft'
+  title: string
+  markdown: string
+  id: string
+}
+
+const { variant, title, markdown, id } = Astro.props
+---
+
+<section
+  aria-labelledby={id}
+  class:list={[
+    'mt-8 border-l-2',
+    variant === 'strong' ? 'border-accent bg-accent-soft px-5 py-4' : 'border-rule py-1 pl-5',
+  ]}
+>
+  <h2
+    id={id}
+    class:list={['meta-sm uppercase', variant === 'strong' ? 'text-accent' : 'text-muted']}
+  >
+    {title}
+  </h2>
+  <Prose markdown={markdown} class="mt-2 text-[0.95rem]" />
+</section>

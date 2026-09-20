@@ -1,0 +1,118 @@
+---
+import type { Week } from '../lib/course'
+import { readingsOfTier, totalMinutes } from '../lib/course'
+import { formatHoursRoundedUp } from '../lib/format'
+import { weekHref } from '../lib/links'
+
+interface Props {
+  weeks: Week[]
+  currentWeek: number
+}
+
+const { weeks, currentWeek } = Astro.props
+
+const items = weeks.map((week) => {
+  const main = readingsOfTier(week, 'main')
+  return {
+    week: week.data.week,
+    slug: week.data.slug,
+    title: week.data.title,
+    minutes: totalMinutes(main),
+    main,
+    supplementary: readingsOfTier(week, 'supplementary'),
+    isCurrent: week.data.week === currentWeek,
+  }
+})
+
+// Both tiers are listed under the current week. They are told apart by type size and weight
+// rather than by dimming the supplementary ones, which would drop them below AA contrast.
+const groupLabel = 'meta-sm text-muted px-1 pt-3 pb-1 uppercase'
+const subItem = 'text-muted hover:text-accent block py-1 leading-snug transition-colors'
+const indent = 'calc(2ch + 0.625rem)'
+---
+
+<nav aria-label="Course weeks">
+  <p class="meta-sm text-muted px-3 pb-3 uppercase">Course weeks</p>
+
+  <ul>
+    {items.map((item) => (
+      <li class="border-rule border-t last:border-b">
+        <a
+          href={weekHref(item.week)}
+          aria-current={item.isCurrent ? 'page' : undefined}
+          class:list={[
+            'relative block py-2.5 pr-3 pl-3 transition-colors',
+            item.isCurrent ? 'text-accent' : 'text-ink hover:bg-surface',
+          ]}
+        >
+          {/* The active marker: a 2px accent rule in the left margin. */}
+          {item.isCurrent && (
+            <span class="bg-accent absolute top-0 bottom-0 left-0 w-[2px]" aria-hidden="true" />
+          )}
+
+          <span class="flex items-baseline gap-2.5">
+            <span class:list={['meta shrink-0', item.isCurrent ? 'text-accent' : 'text-muted']}>
+              {String(item.week).padStart(2, '0')}
+            </span>
+            <span class="font-serif min-w-0 flex-1 text-[0.95rem] leading-snug font-semibold">
+              {item.title}
+            </span>
+          </span>
+
+          <span
+            class:list={['meta-sm mt-1 block', item.isCurrent ? 'text-accent' : 'text-muted']}
+            style={`padding-left:${indent}`}
+          >
+            {formatHoursRoundedUp(item.minutes)}
+            {item.isCurrent && (
+              <>
+                {' · '}
+                <span data-progress-summary={item.slug}>0 of {item.main.length} main</span>
+              </>
+            )}
+          </span>
+        </a>
+
+        {item.isCurrent && (item.main.length > 0 || item.supplementary.length > 0) && (
+          <div class="mb-3 pr-3" style={`margin-left:calc(${indent} + 0.75rem)`}>
+            {item.main.length > 0 && (
+              <>
+                <p class={groupLabel}>Main</p>
+                <ul>
+                  {item.main.map((reading) => (
+                    <li>
+                      <a
+                        href={`#read-${item.slug}-${reading.id}`}
+                        class:list={[subItem, 'text-[0.82rem]']}
+                      >
+                        {reading.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
+            {item.supplementary.length > 0 && (
+              <>
+                <p class={groupLabel}>Supplementary</p>
+                <ul>
+                  {item.supplementary.map((reading) => (
+                    <li>
+                      <a
+                        href={`#read-${item.slug}-${reading.id}`}
+                        class:list={[subItem, 'text-[0.74rem]']}
+                      >
+                        {reading.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+        )}
+      </li>
+    ))}
+  </ul>
+</nav>

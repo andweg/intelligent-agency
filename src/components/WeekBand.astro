@@ -1,0 +1,132 @@
+---
+/**
+ * The whole curriculum drawn as nine columns of tick marks: one full-height tick per main
+ * reading, one half-height tick per supplementary reading.
+ *
+ * It reads the collection directly rather than taking readings as a prop, so it is always true
+ * to the content and redraws itself when a week is edited. Pure build-time SVG, no client JS.
+ */
+import { getWeeks, readingsOfTier } from '../lib/course'
+import { weekHref } from '../lib/links'
+
+interface Props {
+  activeWeek?: number
+  class?: string
+}
+
+const { activeWeek, class: className = '' } = Astro.props
+
+const TICK_GAP = 4.2
+const GROUP_GAP = 13
+const PAD = 6
+const BASELINE = 62
+const MAIN_H = 34
+const SUPP_H = 15
+const HEIGHT = 86
+
+const weeks = await getWeeks()
+
+let cursor = PAD
+const groups = weeks.map((week) => {
+  const main = readingsOfTier(week, 'main')
+  const supplementary = readingsOfTier(week, 'supplementary')
+
+  const start = cursor
+  const ticks = [
+    ...main.map((_, i) => ({ x: start + i * TICK_GAP, height: MAIN_H, tier: 'main' as const })),
+    ...supplementary.map((_, i) => ({
+      x: start + (main.length + i) * TICK_GAP,
+      height: SUPP_H,
+      tier: 'supplementary' as const,
+    })),
+  ]
+
+  // Each group occupies one TICK_GAP per tick, so the width formula below lands the last tick
+  // PAD from the right edge and the baseline does not trail off past the final column.
+  const span = (ticks.length - 1) * TICK_GAP
+  cursor = start + ticks.length * TICK_GAP + GROUP_GAP
+
+  return {
+    week: week.data.week,
+    slug: week.data.slug,
+    title: week.data.title,
+    mainCount: main.length,
+    suppCount: supplementary.length,
+    centre: start + span / 2,
+    ticks,
+    isActive: activeWeek === week.data.week,
+  }
+})
+
+// The viewBox ends exactly PAD past the final tick, so the first and last ticks are inset by the
+// same amount and the band reads as centred in its column at every width.
+const lastTickX = Math.max(...groups.flatMap((g) => g.ticks.map((t) => t.x)))
+const width = lastTickX + PAD
+
+function tickOpacity(tier: 'main' | 'supplementary', isActive: boolean): number {
+  if (isActive) return tier === 'main' ? 1 : 0.62
+  return tier === 'main' ? 0.48 : 0.2
+}
+---
+
+<!-- The viewBox width is the coordinate system, not a render size: the band always fills its
+     container, so the first and last ticks sit on the content column's edges at every width. -->
+<svg
+  viewBox={`0 0 ${width} ${HEIGHT}`}
+  width="100%"
+  height={HEIGHT}
+  preserveAspectRatio="xMidYMid meet"
+  role="group"
+  aria-label="The nine weeks"
+  class:list={['block h-auto w-full', className]}
+>
+  <line
+    x1="0"
+    y1={BASELINE + 0.5}
+    x2={width}
+    y2={BASELINE + 0.5}
+    stroke="var(--rule)"
+    stroke-width="1"
+  ></line>
+
+  {groups.map((group) => (
+    <a
+      href={weekHref(group.week)}
+      aria-label={`Week ${group.week}: ${group.title}, ${group.mainCount} main and ${group.suppCount} supplementary readings`}
+      class="band-group"
+      style={group.isActive ? undefined : 'opacity:0.85'}
+    >
+      {/* A transparent hit area, so the whole column is clickable and not just the hairlines. */}
+      <rect
+        x={group.ticks[0]!.x - TICK_GAP / 2}
+        y={BASELINE - MAIN_H - 6}
+        width={(group.ticks.length - 1) * TICK_GAP + TICK_GAP}
+        height={MAIN_H + 28}
+        fill="transparent"
+      />
+
+      {group.ticks.map((tick) => (
+        <line
+          x1={tick.x}
+          y1={BASELINE - tick.height}
+          x2={tick.x}
+          y2={BASELINE}
+          stroke={group.isActive ? 'var(--accent)' : 'var(--ink)'}
+          stroke-width="2.4"
+          stroke-linecap="round"
+          opacity={tickOpacity(tick.tier, group.isActive)}
+        />
+      ))}
+
+      <text
+        x={group.centre}
+        y={BASELINE + 16}
+        text-anchor="middle"
+        class="band-label"
+        fill={group.isActive ? 'var(--accent)' : 'var(--muted)'}
+      >
+        {String(group.week).padStart(2, '0')}
+      </text>
+    </a>
+  ))}
+</svg>

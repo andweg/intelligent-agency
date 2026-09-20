@@ -1,0 +1,67 @@
+---
+/**
+ * Inline SVG icon per reading type. Deliberately not favicons: fetching those would leak
+ * visitor traffic to every linked domain.
+ */
+interface Props {
+  type: 'post' | 'paper' | 'book' | 'video' | 'podcast' | 'reference'
+  class?: string
+}
+
+const { type, class: className = '' } = Astro.props
+---
+
+<svg
+  class:list={['shrink-0', className]}
+  viewBox="0 0 16 16"
+  width="12"
+  height="12"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.4"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {type === 'post' && (
+    <>
+      <path d="M3 2h7l3 3v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Z" />
+      <path d="M9.5 2v3.5H13" />
+      <path d="M5 9h6M5 11.5h4" />
+    </>
+  )}
+  {type === 'paper' && (
+    <>
+      <path d="M4 1.5h5.5L13 5v8.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1Z" />
+      <path d="M9.25 1.5V5H13" />
+      <path d="M5.5 8h5M5.5 10.5h5M5.5 5.5h2" />
+    </>
+  )}
+  {type === 'book' && (
+    <>
+      <path d="M2.5 3a1.5 1.5 0 0 1 1.5-1.5h8.5v11H4A1.5 1.5 0 0 0 2.5 13V3Z" />
+      <path d="M2.5 13A1.5 1.5 0 0 1 4 11.5h8.5v3H4A1.5 1.5 0 0 1 2.5 13Z" />
+    </>
+  )}
+  {type === 'video' && (
+    <>
+      <rect x="1.5" y="3" width="13" height="10" rx="1.5" />
+      <path d="M6.75 6.25 10.25 8l-3.5 1.75v-3.5Z" fill="currentColor" stroke-width="0.8" />
+    </>
+  )}
+  {type === 'podcast' && (
+    <>
+      <rect x="6" y="1.5" width="4" height="7.5" rx="2" />
+      <path d="M3.5 7.5a4.5 4.5 0 0 0 9 0" />
+      <path d="M8 12v2.5M6 14.5h4" />
+    </>
+  )}
+  {type === 'reference' && (
+    <>
+      <circle cx="8" cy="8" r="6.25" />
+      <path d="M1.75 8h12.5" />
+      <path d="M8 1.75c1.6 1.7 2.5 3.9 2.5 6.25S9.6 12.55 8 14.25C6.4 12.55 5.5 10.35 5.5 8S6.4 3.45 8 1.75Z" />
+    </>
+  )}
+</svg>
