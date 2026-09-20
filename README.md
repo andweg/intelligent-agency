@@ -124,6 +124,19 @@ The build is fully static and identical on both hosts. Only `src/site.config.ts`
 `.github/workflows/deploy.yml` builds and deploys on every push to `main`. Enable it once under
 **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
+That setting is not optional. Left on the default "Deploy from a branch", GitHub runs its legacy
+Jekyll build over the repository source instead of using this workflow's artifact, and the deploy
+fails with:
+
+```
+YAML Exception reading src/layouts/BaseLayout.astro:
+  (<unknown>): mapping values are not allowed in this context
+```
+
+Jekyll treats any file opening with `---` as having YAML frontmatter, which is exactly how every
+`.astro` component starts — so it tries to parse TypeScript as YAML. Switching the source to
+GitHub Actions stops the Jekyll build from running at all.
+
 Set **two values** in `src/site.config.ts`:
 
 ```ts
@@ -136,8 +149,16 @@ For a **user or organization page** (`<user>.github.io` repo) or a **custom doma
 every internal link and asset on this site goes through a `withBase()` helper, so setting this one
 value correctly is all that is needed.
 
-`public/.nojekyll` is committed so Pages does not strip the underscore-prefixed `_astro/` asset
-paths. Do not delete it.
+Two `.nojekyll` files are committed, and both are deliberate:
+
+- `public/.nojekyll` ships in `dist/`, so Pages does not strip the underscore-prefixed `_astro/`
+  asset paths from the deployed site.
+- `.nojekyll` at the repository root is a guard: if Pages is ever switched back to branch
+  deployment, it stops Jekyll parsing the `.astro` sources and erroring. It does not make branch
+  deployment work — that would publish the source tree rather than `dist` — it only keeps the
+  failure quiet while you fix the source setting.
+
+Do not delete either.
 
 ### Cloudflare Pages
 

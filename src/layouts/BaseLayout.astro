@@ -15,7 +15,10 @@ interface Props {
 const { title, description = SITE.description, wide = false } = Astro.props
 
 const pageTitle = title === SITE.name ? title : `${title} — ${SITE.name}`
-const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://andweg.github.io/intelligent-agency/').href
+const canonical = new URL(
+  Astro.url.pathname,
+  Astro.site ?? 'https://andweg.github.io/intelligent-agency/',
+).href
 ---
 
 <!doctype html>
