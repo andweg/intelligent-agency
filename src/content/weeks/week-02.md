@@ -17,7 +17,7 @@ readings:
   authors: Ian Hacking
   type: book
   minutes: 75
-  prerequisites: 
+  prerequisites: ''
   year: 1975
   url: https://www.andreasaltelli.eu/file/repository/Jan_Hacking_Emergence_Probability.pdf#page=81
   excerpt: Chapter 6 (The First Calculations), Chapter 8 (The Great Decision), Chapter 10 (Probability
