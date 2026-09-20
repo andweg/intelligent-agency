@@ -25,7 +25,8 @@ readings:
   authors: Abram Demski
   type: post
   minutes: 25
-  prerequisites: ''
+  prerequisites: |
+    Assumes the vNM axioms from the previous reading, plus the statistical notions of dominance and admissibility.
   year: 2021
   url: https://www.lesswrong.com/posts/sZuw6SGfmZHvcAAEP/complete-class-consequentialist-foundations
 - id: geometric-rationality-is-not-vnm-rational
@@ -34,7 +35,8 @@ readings:
   authors: Scott Garrabrant
   type: post
   minutes: 12
-  prerequisites: ''
+  prerequisites: |
+    Only lands against the vNM axioms. Read the von Neumann and Morgenstern excerpt first.
   year: 2022
   url: https://www.lesswrong.com/posts/Xht9swezkGZLAxBrd/geometric-rationality-is-not-vnm-rational
   note: Paired with the next reading as a single bullet in the source doc.
@@ -44,7 +46,8 @@ readings:
   authors: Kendiukhov
   type: post
   minutes: 12
-  prerequisites: ''
+  prerequisites: |
+    Independence is the axiom stated in §3.6 of the first reading.
   url: https://www.lesswrong.com/posts/MsjWPWjAerDtiQ3Do/on-the-independence-axiom
 - id: embedded-agency
   tier: main
@@ -52,7 +55,8 @@ readings:
   authors: Scott Garrabrant and Abram Demski
   type: post
   minutes: 60
-  prerequisites: ''
+  prerequisites: |
+    Assumes utility functions, Bayesian updating and the decision-theoretic vocabulary of everything above it.
   year: 2018
   url: https://www.lesswrong.com/s/Rm6oQRJJmhGCcLvxh/p/i3BTagvt3HbPMx6PN
   excerpt: Sections 1 (Embedded agents), 2 (Decision theory) and 3 (Embedded world-models)
@@ -62,7 +66,8 @@ readings:
   authors: Johan Gustafsson and Kowalczyk
   type: paper
   minutes: 30
-  prerequisites: ''
+  prerequisites: |
+    Assumes the vNM axioms.
   url: https://www.utilitarianism.net/img/Harsanyi-Utilitarian-Theorems-without-Tears.pdf
 - id: futarchy
   tier: supplementary
@@ -78,7 +83,8 @@ readings:
   authors: Andrew Critch
   type: paper
   minutes: 35
-  prerequisites: ''
+  prerequisites: |
+    Assumes the reinforcement learning formalism and vNM utility.
   year: 2017
   url: https://arxiv.org/pdf/1701.01302
 - id: servant-of-many-masters

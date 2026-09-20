@@ -17,7 +17,8 @@ readings:
   authors: Thomas Schelling
   type: book
   minutes: 75
-  prerequisites: ''
+  prerequisites: |
+    Assumes coordination games, commitment and common knowledge, and defines none of them.
   year: 1960
   url: https://www.sackett.net/Strategy-of-Conflict.pdf
   excerpt: Pages 70-103
@@ -35,7 +36,8 @@ readings:
   authors: Benja Fallenstein, Jessica Taylor and Paul Christiano
   type: paper
   minutes: 60
-  prerequisites: ''
+  prerequisites: |
+    Assumes the halting problem, and the self-reference material from week 6.
   year: 2015
   url: https://arxiv.org/abs/1508.04145
 - id: power-lies-trembling
@@ -61,7 +63,8 @@ readings:
   authors: Diffractor
   type: post
   minutes: 60
-  prerequisites: ''
+  prerequisites: |
+    Assumes cooperative game theory and the standard bargaining solutions (Nash, Kalai–Smorodinsky).
   year: 2022
   url: https://www.alignmentforum.org/posts/vJ7ggyjuP4u2yHNcP/threat-resistant-bargaining-megapost-introducing-the-rose
 - id: there-is-a-war

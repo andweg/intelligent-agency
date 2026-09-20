@@ -30,7 +30,8 @@ readings:
   authors: Scott Alexander
   type: post
   minutes: 20
-  prerequisites: ''
+  prerequisites: |
+    Continues the review above. Read *Book Review: Surfing Uncertainty* first.
   year: 2019
   url: https://slatestarcodex.com/2019/03/20/translating-predictive-coding-into-perceptual-control/
 - id: zoom-in-an-introduction-to-circuits
@@ -39,7 +40,8 @@ readings:
   authors: Chris Olah et al.
   type: paper
   minutes: 40
-  prerequisites: ''
+  prerequisites: |
+    Assumes convolutional networks: layers, channels, learned features.
   year: 2020
   url: https://distill.pub/2020/circuits/zoom-in/
 - id: an-intuitive-guide-to-garrabrant-induction
@@ -48,7 +50,8 @@ readings:
   authors: Mark Xu
   type: post
   minutes: 40
-  prerequisites: ''
+  prerequisites: |
+    Assumes probability and the idea of a Dutch book, plus the observation that a Bayesian agent cannot coherently be uncertain about a mathematical fact.
   year: 2021
   url: https://markxu.com/writing/logical-induction/
 - id: loss-as-the-inconsistency-of-a-probabilistic-dependency-graph
@@ -57,7 +60,8 @@ readings:
   authors: Oliver Richardson
   type: paper
   minutes: 60
-  prerequisites: ''
+  prerequisites: |
+    Bayesian networks, KL divergence and basic information theory.
   year: 2022
   url: https://arxiv.org/abs/2202.11862
 - id: condensation
@@ -108,7 +112,8 @@ readings:
   authors: Abram Demski
   type: post
   minutes: 30
-  prerequisites: ''
+  prerequisites: |
+    Assumes Bayesian updating and Jeffrey conditionalisation.
   year: 2020
   url: https://www.lesswrong.com/posts/xJyY5QkQvNJpZLJRo/radical-probabilism-1
 ---

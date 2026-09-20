@@ -35,7 +35,8 @@ readings:
   authors: Jessica Taylor
   type: post
   minutes: 15
-  prerequisites: ''
+  prerequisites: |
+    Continues the previous post. Read *Truth-telling is aggression in zero-sum frames* first.
   year: 2021
   url: https://unstableontology.com/2021/04/12/on-commitments-to-anti-normativity/
 - id: local-validity-as-a-key-to-sanity-and-civilization
@@ -53,7 +54,8 @@ readings:
   authors: Attubato
   type: post
   minutes: 30
-  prerequisites: ''
+  prerequisites: |
+    Assumes familiarity with LLM pretraining and RLHF, and with the "simulator" framing of what a base model is doing.
   year: 2023
   url: https://www.lesswrong.com/posts/D7PumeYTDPfBTp3i7/the-waluigi-effect-mega-post
   note: Credited as Attubato in the source doc; bylined Cleo Nardo on LessWrong.
@@ -63,7 +65,8 @@ readings:
   authors: Daniel Kokotajlo
   type: post
   minutes: 15
-  prerequisites: ''
+  prerequisites: |
+    Assumes the bargaining and commitment ideas from week 8.
   year: 2019
   url: https://www.lesswrong.com/posts/brXr7PJ2W4Na2EW2q/the-commitment-races-problem
 - id: schelling-goodness-and-shared-morality-as-a-goal

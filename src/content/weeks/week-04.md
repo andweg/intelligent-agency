@@ -32,7 +32,8 @@ readings:
   authors: Ilya Sutskever
   type: video
   minutes: 36
-  prerequisites: ''
+  prerequisites: |
+    Sutskever uses compression and Kolmogorov complexity informally. A one-paragraph acquaintance with "the shortest program that outputs the data" is enough.
   year: 2023
   url: https://www.youtube.com/live/AKMuA_TVz3A
   excerpt: Until 36:00
@@ -50,7 +51,8 @@ readings:
   authors: Alex Turner
   type: post
   minutes: 20
-  prerequisites: ''
+  prerequisites: |
+    Assumes policy-gradient reinforcement learning: that reward shapes the policy through gradient updates rather than being a thing the policy seeks.
   year: 2022
   url: https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target
 - id: settling-the-reward-hypothesis
@@ -59,7 +61,8 @@ readings:
   authors: Michael Bowling et al.
   type: paper
   minutes: 45
-  prerequisites: ''
+  prerequisites: |
+    Assumes the formal RL setting: Markov decision processes, return, the reward hypothesis as usually stated.
   year: 2022
   url: https://arxiv.org/pdf/2212.10420
   note: Listed under "Extra readings" in the source doc.

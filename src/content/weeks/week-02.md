@@ -17,7 +17,7 @@ readings:
   authors: Ian Hacking
   type: book
   minutes: 75
-  prerequisites: ''
+  prerequisites: 
   year: 1975
   url: https://www.andreasaltelli.eu/file/repository/Jan_Hacking_Emergence_Probability.pdf#page=81
   excerpt: Chapter 6 (The First Calculations), Chapter 8 (The Great Decision), Chapter 10 (Probability
@@ -28,7 +28,8 @@ readings:
   authors: Cristopher Moore and Stephan Mertens
   type: book
   minutes: 45
-  prerequisites: ''
+  prerequisites: |
+    Assumes you can read a formal definition. Familiarity with Turing machines helps.
   year: 2011
   url: https://www.richardcngo.com/the-nature-of-computation-excerpt
   excerpt: Sections 7, 7.1 and 7.2

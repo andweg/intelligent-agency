@@ -17,7 +17,8 @@ readings:
   authors: Abram Demski
   type: post
   minutes: 30
-  prerequisites: ''
+  prerequisites: |
+    Assumes week 3's decision theory, and the existence of fixed points for well-behaved maps on compact convex sets (Brouwer, Kakutani).
   year: 2024
   url: https://www.alignmentforum.org/posts/8dbimB7EJXuYxmteW/fixdt
   note: The source doc writes this as "FixedDT"; the post itself is titled FixDT.
@@ -27,7 +28,8 @@ readings:
   authors: Richard Ngo
   type: post
   minutes: 30
-  prerequisites: ''
+  prerequisites: |
+    Written as a response to FixDT. Read that first.
   url: https://www.mindthefuture.info/p/agents-as-webs-of-beliefs
 - id: boundaries-part-1-a-key-missing-concept-from-utility-theory
   tier: main
@@ -44,7 +46,8 @@ readings:
   authors: davidad
   type: post
   minutes: 10
-  prerequisites: ''
+  prerequisites: |
+    Assumes you are comfortable replacing a single probability distribution with a set of them.
   url: https://www.lesswrong.com/posts/e7Pd4Q9TF7jFdmPgz/imprecise-beliefs-a-tiny-introduction
 - id: explaining-knightianism-on-one-foot
   tier: supplementary
@@ -69,7 +72,8 @@ readings:
   authors: Scott Garrabrant
   type: post
   minutes: 45
-  prerequisites: ''
+  prerequisites: |
+    Assumes comfort with sets and functions, and with picking up a new formalism from its definitions.
   year: 2020
   url: https://www.lesswrong.com/posts/BSpdshJWGAW6TuNzZ/introduction-to-cartesian-frames
 ---
