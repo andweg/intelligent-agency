@@ -11,7 +11,7 @@ export const SITE = {
 
   // GitHub Pages project sites are served from /<repo>/. Set base to '/<repo>' for a project
   // page, or '/' for a user page or a custom domain. Cloudflare Pages always uses '/'.
-  site: 'https://example.github.io',
+  site: 'https://andweg.github.io/intelligent-agency',
   base: '/',
 
   // The Tally form embedded on /signup. Change the id to point the page at a different form;
