@@ -1,7 +1,6 @@
 ---
 import { render } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
-import WeekBand from '../components/WeekBand.astro'
 import Prose from '../components/Prose.astro'
 import SignupButton from '../components/SignupButton.astro'
 import { getWeeks, getCourse, hasOwnNotes, readingsOfTier, totalMinutes } from '../lib/course'
@@ -44,10 +43,6 @@ const rows = weeks.map((week) => {
       </div>
     </div>
   </section>
-
-  <div class="pb-12">
-    <WeekBand variant="hero" />
-  </div>
 
   {showIntro && (
     <section class="border-rule max-w-[720px] border-t pt-10 pb-12" aria-labelledby="what-this-is">
