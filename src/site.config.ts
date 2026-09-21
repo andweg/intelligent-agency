@@ -17,6 +17,6 @@ export const SITE = {
   // The Tally form embedded on /signup. Change the id to point the page at a different form;
   // the embed and the no-JavaScript fallback link are both derived from it.
   tallyFormId: '9qe5qK',
-  signupLabel: 'Join a cohort',
+  signupLabel: 'Sign up',
   contactEmail: '', // optional; hide the link when empty
 } as const
