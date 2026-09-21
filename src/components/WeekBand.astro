@@ -11,24 +11,18 @@ import { weekHref } from '../lib/links'
 
 interface Props {
   activeWeek?: number
-  /** 'hero' is the taller homepage treatment; 'inline' is the week-page band, unchanged. */
-  variant?: 'hero' | 'inline'
   class?: string
 }
 
-const { activeWeek, variant = 'inline', class: className = '' } = Astro.props
+const { activeWeek, class: className = '' } = Astro.props
 
-// Horizontal geometry is shared: only the vertical scale and the label size differ.
 const TICK_GAP = 4.2
 const GROUP_GAP = 13
 const PAD = 6
-
-const SCALE = {
-  inline: { BASELINE: 62, MAIN_H: 34, SUPP_H: 15, HEIGHT: 86, LABEL: 9.5 },
-  hero: { BASELINE: 78, MAIN_H: 46, SUPP_H: 20, HEIGHT: 106, LABEL: 11 },
-} as const
-
-const { BASELINE, MAIN_H, SUPP_H, HEIGHT, LABEL } = SCALE[variant]
+const BASELINE = 62
+const MAIN_H = 34
+const SUPP_H = 15
+const HEIGHT = 86
 
 const weeks = await getWeeks()
 
@@ -129,7 +123,6 @@ function tickOpacity(tier: 'main' | 'supplementary', isActive: boolean): number 
         y={BASELINE + 16}
         text-anchor="middle"
         class="band-label"
-        font-size={LABEL}
         fill={group.isActive ? 'var(--accent)' : 'var(--muted)'}
       >
         {String(group.week).padStart(2, '0')}

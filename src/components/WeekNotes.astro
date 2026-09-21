@@ -1,0 +1,144 @@
+---
+/**
+ * A private scratchpad for the reader, one per week, folded away until wanted.
+ *
+ * The fold is a plain <details>, so it opens with JavaScript off. The text is persisted to
+ * localStorage under a single namespaced key, keyed by week slug — the same namespace the reading
+ * checkboxes use, so a week's progress and its notes travel together.
+ *
+ * Nothing here reaches the network: this is the reader's own browser and nowhere else.
+ */
+interface Props {
+  weekSlug: string
+}
+
+const { weekSlug } = Astro.props
+const fieldId = `notes-${weekSlug}`
+---
+
+<section class="mt-14" aria-labelledby="notes-heading">
+  <h2 id="notes-heading" class="sr-only">
+    Your notes
+  </h2>
+
+  <details class="border-rule border-y">
+    <summary class="meta text-muted hover:text-ink cursor-pointer list-none py-3 transition-colors [&::-webkit-details-marker]:hidden">
+      <span class="flex items-center justify-between gap-2">
+        <span class="uppercase">Your notes</span>
+        <span class="flex items-center gap-2">
+          {/* Filled in by the script when there is saved text; empty otherwise. */}
+          <span class="meta-sm text-muted" data-notes-status={weekSlug}></span>
+          <svg
+            class="size-3.5"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m4 6 4 4 4-4"></path>
+          </svg>
+        </span>
+      </span>
+    </summary>
+
+    <div class="border-rule border-t py-5">
+      <label for={fieldId} class="sr-only">
+        Your notes on this week
+      </label>
+      <textarea
+        id={fieldId}
+        data-notes-field={weekSlug}
+        rows="8"
+        spellcheck="true"
+        placeholder="Questions, disagreements, things to bring to the session…"
+        class="border-rule bg-surface text-ink placeholder:text-muted focus-visible:border-accent block w-full resize-y rounded-[2px] border p-3 text-[0.94rem] leading-relaxed"
+      ></textarea>
+
+      <p class="meta-sm text-muted mt-2">
+        Saved in this browser only. Never sent anywhere, and not carried to other devices.
+      </p>
+    </div>
+  </details>
+</section>
+
+<script>
+  type Notes = Record<string, string>
+
+  const STORAGE_KEY = 'uia:notes'
+  const DEBOUNCE_MS = 400
+
+  function read(): Notes {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY)
+      if (!raw) return {}
+      const parsed: unknown = JSON.parse(raw)
+      if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) return {}
+      return parsed as Notes
+    } catch {
+      // Private browsing, blocked site data, or corrupt JSON: start from empty.
+      return {}
+    }
+  }
+
+  function write(notes: Notes): void {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(notes))
+    } catch {
+      // Storage unavailable or full. The text stays in the field for this page view.
+    }
+  }
+
+  function save(week: string, value: string): void {
+    const notes = read()
+    // An emptied field drops its key rather than storing "", so the store does not accumulate
+    // entries for weeks the reader opened and thought better of.
+    if (value.trim() === '') delete notes[week]
+    else notes[week] = value
+    write(notes)
+  }
+
+  function start(): void {
+    const field = document.querySelector<HTMLTextAreaElement>('[data-notes-field]')
+    if (!field) return
+    const week = field.dataset.notesField
+    if (!week) return
+
+    const status = document.querySelector<HTMLElement>(`[data-notes-status="${week}"]`)
+    const setStatus = () => {
+      if (status) status.textContent = field.value.trim() === '' ? '' : 'saved'
+    }
+
+    // Hydrate before first paint of the open panel; the field is inside a closed <details>, so
+    // there is no flash either way.
+    field.value = read()[week] ?? ''
+    setStatus()
+
+    let timer: number | undefined
+    const flush = () => {
+      window.clearTimeout(timer)
+      save(week, field.value)
+      setStatus()
+    }
+
+    field.addEventListener('input', () => {
+      window.clearTimeout(timer)
+      timer = window.setTimeout(flush, DEBOUNCE_MS)
+    })
+
+    // A debounce alone loses the last keystrokes when the tab goes away mid-pause.
+    field.addEventListener('blur', flush)
+    window.addEventListener('pagehide', flush)
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') flush()
+    })
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, { once: true })
+  } else {
+    start()
+  }
+</script>

@@ -8,6 +8,7 @@ import Callout from '../../components/Callout.astro'
 import Prose from '../../components/Prose.astro'
 import SignupButton from '../../components/SignupButton.astro'
 import ProgressScript from '../../components/ProgressScript.astro'
+import WeekNotes from '../../components/WeekNotes.astro'
 import { getWeeks, getCourse, readingsOfTier, hasOwnNotes, type Week } from '../../lib/course'
 import { withBase } from '../../lib/url'
 import { weekHref } from '../../lib/links'
@@ -208,6 +209,8 @@ const navLink = 'meta text-muted hover:text-accent uppercase transition-colors'
             readings={supplementary}
             weekSlug={week.data.slug}
           />
+
+          <WeekNotes weekSlug={week.data.slug} />
 
           <aside class="border-rule mt-16 border-t pt-8" aria-labelledby="signup-cta">
             <h2 id="signup-cta" class="text-[1.15rem]">

@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 import Attribution from '../components/Attribution.astro'
 import SignupButton from '../components/SignupButton.astro'
-import ResetProgress from '../components/ResetProgress.astro'
+import ResetStorage from '../components/ResetStorage.astro'
 import { getCourse, getWeeks, courseTotals } from '../lib/course'
 import { SITE } from '../site.config'
 
@@ -48,7 +48,7 @@ const totals = courseTotals(weeks)
       </p>
     </div>
 
-    <ResetProgress />
+    <ResetStorage />
 
     <div class="prose-block mt-10 text-[0.98rem]">
       <h2>The source document</h2>
