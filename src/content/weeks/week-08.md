@@ -19,7 +19,7 @@ readings:
   type: book
   minutes: 75
   prerequisites: |
-    Coordination games, commitment, common knowledge, Nash equilibrium — none of them defined in the text.
+    Coordination games, commitment, common knowledge, Nash equilibrium.
   year: 1960
   url: https://www.sackett.net/Strategy-of-Conflict.pdf
   excerpt: Pages 70-103
