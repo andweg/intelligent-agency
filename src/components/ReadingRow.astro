@@ -13,7 +13,13 @@ interface Props {
 
 const { reading, weekSlug } = Astro.props
 const host = hostFromUrl(reading.url)
-const checkboxId = `read-${weekSlug}-${reading.id}`
+const checkboxId = `check-${weekSlug}-${reading.id}`
+
+// The anchor the sidebar links to. It sits on the row rather than on the checkbox: the input is
+// 14px tall and starts a little below the row's top edge, so aligning it to the viewport left the
+// whole row behind the sticky header. The `read-` prefix is kept so fragment links already in the
+// wild still resolve, and scroll-mt-20 clears the header's h-16 with a little room to spare.
+const anchorId = `read-${weekSlug}-${reading.id}`
 
 const meta = [
   reading.authors,
@@ -23,7 +29,7 @@ const meta = [
 ].filter((part): part is string => Boolean(part))
 ---
 
-<li class="border-rule border-b last:border-b-0">
+<li id={anchorId} class="border-rule scroll-mt-20 border-b last:border-b-0">
   <div class="flex gap-3.5 py-3.5">
     {/* The label is visually hidden so that clicking the title follows its link rather than
         toggling the checkbox, while screen readers still hear which reading this marks. */}
