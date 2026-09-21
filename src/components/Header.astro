@@ -5,7 +5,11 @@ import { SITE } from '../site.config'
 import { withBase } from '../lib/url'
 
 const path = Astro.url.pathname.replace(/\/$/, '')
-const isAbout = path.endsWith('/about')
+
+const links = [
+  { href: '/about', label: 'About' },
+  { href: '/your-data', label: 'Your data' },
+]
 ---
 
 <header class="border-rule bg-paper sticky top-0 z-30 border-b">
@@ -20,16 +24,21 @@ const isAbout = path.endsWith('/about')
     </a>
 
     <nav aria-label="Main" class="ml-auto flex items-center gap-1 sm:gap-3">
-      <a
-        href={withBase('/about')}
-        aria-current={isAbout ? 'page' : undefined}
-        class:list={[
-          'meta py-1.5 uppercase transition-colors',
-          isAbout ? 'text-accent' : 'text-muted hover:text-ink',
-        ]}
-      >
-        About
-      </a>
+      {links.map((link) => {
+        const isCurrent = path.endsWith(link.href)
+        return (
+          <a
+            href={withBase(link.href)}
+            aria-current={isCurrent ? 'page' : undefined}
+            class:list={[
+              'meta py-1.5 whitespace-nowrap uppercase transition-colors',
+              isCurrent ? 'text-accent' : 'text-muted hover:text-ink',
+            ]}
+          >
+            {link.label}
+          </a>
+        )
+      })}
       <ThemeToggle />
     </nav>
   </div>

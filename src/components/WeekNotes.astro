@@ -1,10 +1,10 @@
 ---
 /**
- * A private scratchpad for the reader, one per week, folded away until wanted.
+ * A private scratchpad for the reader, one per week, open by default and foldable away.
  *
- * The fold is a plain <details>, so it opens with JavaScript off. The text is persisted to
- * localStorage under a single namespaced key, keyed by week slug — the same namespace the reading
- * checkboxes use, so a week's progress and its notes travel together.
+ * The fold is a plain <details> that starts open, so the notes are there with JavaScript off. The
+ * text is persisted to localStorage under a single namespaced key, keyed by week slug — the same
+ * namespace the reading checkboxes use, so a week's progress and its notes travel together.
  *
  * Nothing here reaches the network: this is the reader's own browser and nowhere else.
  */
@@ -21,7 +21,7 @@ const fieldId = `notes-${weekSlug}`
     Your notes
   </h2>
 
-  <details class="border-rule border-y">
+  <details open class="group border-rule border-y">
     <summary class="meta text-muted hover:text-ink cursor-pointer list-none py-3 transition-colors [&::-webkit-details-marker]:hidden">
       <span class="flex items-center justify-between gap-2">
         <span class="uppercase">Your notes</span>
@@ -29,7 +29,7 @@ const fieldId = `notes-${weekSlug}`
           {/* Filled in by the script when there is saved text; empty otherwise. */}
           <span class="meta-sm text-muted" data-notes-status={weekSlug}></span>
           <svg
-            class="size-3.5"
+            class="size-3.5 transition-transform group-open:rotate-180"
             viewBox="0 0 16 16"
             fill="none"
             stroke="currentColor"
@@ -111,8 +111,8 @@ const fieldId = `notes-${weekSlug}`
       if (status) status.textContent = field.value.trim() === '' ? '' : 'saved'
     }
 
-    // Hydrate before first paint of the open panel; the field is inside a closed <details>, so
-    // there is no flash either way.
+    // Hydrate before first paint. The stored text lands in the field in the same task as the
+    // rest of the page's startup work, so the open panel does not flash empty first.
     field.value = read()[week] ?? ''
     setStatus()
 

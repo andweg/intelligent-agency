@@ -1,10 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import Attribution from '../components/Attribution.astro'
 import SignupButton from '../components/SignupButton.astro'
-import ResetStorage from '../components/ResetStorage.astro'
 import { getCourse, getWeeks, courseTotals } from '../lib/course'
 import { SITE } from '../site.config'
+import { withBase } from '../lib/url'
 
 const course = await getCourse()
 const weeks = await getWeeks()
@@ -46,9 +45,10 @@ const totals = courseTotals(weeks)
         anywhere. Clearing your browser data, or opening the site in a different browser, starts you
         from scratch. Nothing on the site is gated on your progress.
       </p>
+      <p>
+        <a href={withBase('/your-data')}>Your data</a> lists what is stored and lets you clear it.
+      </p>
     </div>
-
-    <ResetStorage />
 
     <div class="prose-block mt-10 text-[0.98rem]">
       <h2>The source document</h2>
