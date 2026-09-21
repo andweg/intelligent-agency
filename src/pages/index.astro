@@ -1,6 +1,7 @@
 ---
 import { render } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
+import WeekBand from '../components/WeekBand.astro'
 import Prose from '../components/Prose.astro'
 import SignupButton from '../components/SignupButton.astro'
 import { getWeeks, getCourse, hasOwnNotes, readingsOfTier, totalMinutes } from '../lib/course'
@@ -34,17 +35,19 @@ const rows = weeks.map((week) => {
           to hold one line at desktop widths and left free to wrap on a phone. */}
       <h1 class="hero-title">{course.data.tagline}</h1>
 
-      <div class="mt-8 flex flex-wrap items-center gap-5">
+      {/* gap-[18px]: the 4px offsets sit outside each border box and must not touch. */}
+      <div class="mt-8 flex flex-wrap items-center gap-[18px]">
         <SignupButton />
-        <a
-          href={weekHref(weeks[0]!.data.week)}
-          class="meta text-muted hover:text-accent uppercase transition-colors"
-        >
-          Start with week 01 &rarr;
+        <a href={weekHref(weeks[0]!.data.week)} class="btn btn--quiet">
+          Start with week 1
         </a>
       </div>
     </div>
   </section>
+
+  <div class="pb-12">
+    <WeekBand variant="hero" />
+  </div>
 
   {showIntro && (
     <section class="border-rule max-w-[720px] border-t pt-10 pb-12" aria-labelledby="what-this-is">
