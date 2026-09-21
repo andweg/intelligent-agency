@@ -4,7 +4,8 @@ slug: expected-utility-maximization
 title: Expected Utility Maximization and its Discontents
 summary: The axioms of expected utility theory are beautiful, and also flawed. Both perspectives, in one
   week.
-prerequisites: ''
+prerequisites: |
+  Dominance and admissibility. Utility functions and Bayesian updating. The reinforcement learning formalism, for one supplementary reading.
 objectives: ''
 ngoIntro: |
   The axioms of expected utility theory are beautiful, and also flawed. This week tries to explain both perspectives.

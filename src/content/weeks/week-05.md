@@ -4,7 +4,8 @@ slug: the-concept-of-concepts
 title: The Concept of Concepts
 summary: 'Past behaviourist notions of generalization: concepts as parts of a world-model, from predictive
   processing, circuits, and frameworks for overlapping hypotheses.'
-prerequisites: ''
+prerequisites: |
+  Convolutional networks: layers, channels, learned features. Probability and Dutch books. Logical uncertainty: the problem that a Bayesian agent cannot coherently be uncertain about a mathematical fact. Bayesian networks, KL divergence, basic information theory. Jeffrey conditionalisation, for one supplementary reading.
 objectives: ''
 ngoIntro: |
   I suspect that our understanding of generalization is confused because we're treating it as an implicitly behaviorist concept, rather than thinking in terms of the internal representations learned by models. In particular, it seems productive to think in terms of the concept of "concepts", by which I mean something like a part of one's world-model.

@@ -4,7 +4,8 @@ slug: self-referential-agents
 title: Self-Referential Agents
 summary: Definability of truth, Lobian cooperation in open-source game theory, and why self-reference
   matters for understanding LLM personas.
-prerequisites: ''
+prerequisites: |
+  First-order logic. Gödel's first incompleteness theorem, Tarski's undefinability theorem, Löb's theorem, and the box operator of provability logic. Normal-form games and Nash equilibrium. LLM training: pretraining, fine-tuning, RLHF. Measure-theoretic probability, for one supplementary reading.
 objectives: ''
 ngoIntro: |
   It increasingly seems hard to explain intelligent agency without some concept of self-reference. This week focuses on three strands of thinking. Firstly, Christiano's definability of truth paper finds a way around Tarski's core undefinability of truth result (which inspired later work on Garrabrant induction and reflective oracles). The second thread is Lobian cooperation in open-source game theory. Demski's Probabilistic Payor's Lemma? post ties these two threads together.

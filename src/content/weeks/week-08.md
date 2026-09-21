@@ -4,7 +4,8 @@ slug: formal-theory-of-sociopolitics
 title: Towards a Formal Theory of Sociopolitics
 summary: Moving between game-theoretic equilibria, Schelling points, and what it would take to naturalise
   game theory.
-prerequisites: ''
+prerequisites: |
+  Coordination games, commitment, common knowledge, Nash equilibrium — none of them defined in the readings. The halting problem. Week 6's self-reference material. Cooperative game theory and the standard bargaining solutions (Nash, Kalai–Smorodinsky), for one supplementary reading.
 objectives: ''
 ngoIntro: |
   The ideas discussed in previous weeks hold some promise of helping us move towards a better understanding of sociopolitical phenomena. A core technical challenge is describing the dynamics by which agents move between game-theoretic equilibria (which would then allow us to better define phenomena like Schelling points).

@@ -4,7 +4,8 @@ slug: paradigms-of-cognition
 title: Paradigms of Cognition
 summary: How probability and computation were formalised, the social setting science grew out of, and
   alignment as an attempt at a new paradigm for cognition.
-prerequisites: ''
+prerequisites: |
+  Fluency with formal definitions. Turing machines.
 objectives: ''
 ngoIntro: |
   The first two readings this week explore how we gained a formal understanding of two concepts that are crucial for understanding intelligence: probability and computation.

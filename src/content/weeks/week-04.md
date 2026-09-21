@@ -3,7 +3,8 @@ week: 4
 slug: on-generalization
 title: On Generalization
 summary: Generalization in ML, and how it clashes with the rational-agent approach taken in alignment.
-prerequisites: ''
+prerequisites: |
+  Policy-gradient reinforcement learning: reward as something that shapes the policy through gradient updates, not something the policy seeks. Compression and Kolmogorov complexity, informally: the shortest program that outputs the data. The formal RL setting — Markov decision processes, return, the reward hypothesis — for one supplementary reading.
 objectives: ''
 ngoIntro: |
   This week focuses on the concept of generalization in ML, and how it clashes with the rational-agent approach taken in alignment. Note that I'm currently writing up a more detailed history of the engagement between the ML ontology and the alignment ontology, which will replace my two pieces here.

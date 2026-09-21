@@ -4,7 +4,8 @@ slug: bounded-agency
 title: Bounded Agency
 summary: 'Self-fulfilling beliefs, belief webs, boundaries and imprecise beliefs: active inference put
   into an agent-foundations setting.'
-prerequisites: ''
+prerequisites: |
+  Week 3's decision theory. Fixed points of well-behaved maps on compact convex sets (Brouwer, Kakutani). Sets of probability distributions in place of a single one. Sets and functions, and a tolerance for unfamiliar formalism, for one supplementary reading.
 objectives: ''
 ngoIntro: |
   This week brings together ideas from the last two weeks, in particular by putting active-inference-related ideas into a more agent-foundations setting. See Abram's FixedDT post for a discussion of self-fulfilling beliefs. Then read my belief webs post for some pointers towards how the FixDT framework might be improved.

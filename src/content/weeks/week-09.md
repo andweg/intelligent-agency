@@ -4,7 +4,8 @@ slug: game-theoretic-view-of-ethics
 title: A Game-Theoretic View of Ethics
 summary: How ethical norms form and get undermined, and how individuals and groups end up optimizing for
   the opposite of their nominal goals.
-prerequisites: ''
+prerequisites: |
+  LLM pretraining and RLHF. The "simulator" framing of a base model. Week 8's bargaining and commitment ideas, for one supplementary reading.
 objectives: ''
 ngoIntro: |
   One key hope of mine is that a better understanding of game theory will allow us to pin down important ethical concepts, in particular, the processes by which ethical norms are formed and undermined.
